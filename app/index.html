@@ -3,35 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free My TV</title>
+    <title>QuaresmaTV</title>
     <script src="webOSTV.js"></script>
     <style>
         :root {
-            --bg-gradient: radial-gradient(circle at 50% -10%, #171d33 0%, #0a0e1a 55%, #04060a 100%);
-            --glass-shelf: rgba(255, 255, 255, 0.07);
-            --glass-border: rgba(255, 255, 255, 0.13);
-            --glass-focus-border: rgba(255, 255, 255, 0.95);
-            --text-primary: #f5f5f7;
-            --text-secondary: rgba(245, 245, 247, 0.65);
+            --bg-color: #000000;
+            --surface: #141722;
+            --surface-hover: #222838;
+            --border: rgba(255, 255, 255, 0.12);
+            --border-focus: #ffffff;
+            --text-primary: #ffffff;
+            --text-secondary: #949db0;
             --accent: #0a84ff;
-        }
-
-        :root.theme-day,
-        body.theme-day {
-            --bg-gradient: radial-gradient(circle at 50% -10%, #2b4c7e 0%, #152744 55%, #091326 100%);
-            --glass-shelf: rgba(255, 255, 255, 0.11);
-        }
-
-        :root.theme-sunset,
-        body.theme-sunset {
-            --bg-gradient: radial-gradient(circle at 50% -10%, #4a2138 0%, #1e132a 55%, #08060c 100%);
-            --accent: #ff9f0a;
-        }
-
-        :root.theme-oled,
-        body.theme-oled {
-            --bg-gradient: radial-gradient(circle at 50% -10%, #0a0c12 0%, #000000 60%, #000000 100%);
-            --glass-shelf: rgba(255, 255, 255, 0.04);
         }
 
         * {
@@ -42,893 +25,540 @@
             -webkit-user-select: none;
         }
 
-        html {
-            background-color: #04060a;
-        }
-
-        body {
+        html, body {
             width: 100vw;
             height: 100vh;
-            background-color: #04060a;
-            background: var(--bg-gradient);
+            background: #000000 !important;
+            background-color: #000000 !important;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: var(--text-primary);
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
             position: relative;
         }
 
-        body.theme-ready {
-            transition: background 1.2s ease;
-        }
-
-        /* High Performance Mode (Low GPU overhead for TVs like 55NANO81 / webOS 24) */
-        :root.perf-mode .ambient-glow,
-        body.perf-mode .ambient-glow {
-            display: none !important;
-        }
-
-        :root.perf-mode .shelf-wrapper,
-        body.perf-mode .shelf-wrapper,
-        :root.perf-mode .header-btn,
-        body.perf-mode .header-btn,
-        :root.perf-mode .weather-widget,
-        body.perf-mode .weather-widget,
-        :root.perf-mode .modal-backdrop,
-        body.perf-mode .modal-backdrop,
-        :root.perf-mode .weather-drawer,
-        body.perf-mode .weather-drawer,
-        :root.perf-mode .screensaver,
-        body.perf-mode .screensaver {
-            backdrop-filter: none !important;
-            -webkit-backdrop-filter: none !important;
-        }
-
-        :root.perf-mode .shelf-wrapper,
-        body.perf-mode .shelf-wrapper {
-            background: rgba(14, 18, 28, 0.92);
-        }
-
-        :root.perf-mode .header-btn,
-        body.perf-mode .header-btn,
-        :root.perf-mode .weather-widget,
-        body.perf-mode .weather-widget {
-            background: rgba(22, 28, 42, 0.92);
-        }
-
-        :root.perf-mode .modal-backdrop,
-        body.perf-mode .modal-backdrop {
-            background: rgba(6, 8, 14, 0.96);
-        }
-
-        :root.perf-mode .weather-drawer,
-        body.perf-mode .weather-drawer {
-            background: rgba(10, 14, 24, 0.96);
-        }
-
-        :root.perf-mode .app-tile.focused,
-        body.perf-mode .app-tile.focused,
-        :root.perf-mode .pick-card.focused,
-        body.perf-mode .pick-card.focused {
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.7);
-        }
-
-        /* Ambient Dynamic Glow */
-        .ambient-glow {
-            position: absolute;
-            top: -15%;
-            left: 25%;
-            width: 50%;
-            height: 50%;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(10, 132, 255, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
-            filter: blur(60px);
-            pointer-events: none;
-            /* Only opacity/transform animate (compositor-only). The gradient color itself
-               snaps instantly on focus change so the GPU never re-blurs mid-transition
-               while rapidly navigating with the remote's D-Pad. */
-            transition: opacity 0.35s ease;
-            will-change: opacity;
-            z-index: 1;
-        }
+        .ambient-glow { display: none !important; }
 
         .container {
-            position: relative;
-            z-index: 10;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            padding: 34px 54px;
             justify-content: space-between;
+            padding: 32px 56px 24px;
+            position: relative;
+            z-index: 10;
         }
 
-        /* Top Bar */
-        header {
+        /* Top Header */
+        .top-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 64px;
         }
 
         .brand-group {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 16px;
         }
 
         .brand-logo {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             background: linear-gradient(135deg, #0a84ff, #0050c8);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 15px rgba(10, 132, 255, 0.4);
         }
 
         .brand-logo svg {
-            width: 19px;
-            height: 19px;
+            width: 24px;
+            height: 24px;
             fill: #ffffff;
         }
 
         .brand-title {
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: -0.6px;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
         }
 
         .tag-pill {
-            font-size: 11px;
-            font-weight: 600;
+            font-size: 15px;
+            font-weight: 700;
+            padding: 5px 14px;
+            border-radius: 20px;
+            background: rgba(10, 132, 255, 0.2);
+            color: #5ac8fa;
+            border: 1px solid rgba(90, 200, 250, 0.3);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            background: rgba(48, 209, 88, 0.15);
-            color: #30d158;
-            border: 1px solid rgba(48, 209, 88, 0.3);
-            padding: 4px 10px;
-            border-radius: 12px;
+            letter-spacing: 0.5px;
         }
 
-        .header-info {
+        .header-right {
             display: flex;
             align-items: center;
             gap: 20px;
         }
 
+        .weather-widget {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 18px;
+            padding: 8px 20px;
+            cursor: pointer;
+            outline: none;
+            transition: transform 0.15s ease-out, border-color 0.15s ease-out;
+        }
+
+        .weather-widget:hover,
+        .weather-widget:focus,
+        .weather-widget.focused {
+            border-color: var(--border-focus);
+            transform: scale(1.05);
+            background: var(--surface-hover);
+        }
+
+        #weatherIcon { font-size: 34px; line-height: 1; }
+
+        .weather-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        #weatherText {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .weather-sub {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
         .header-btn {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 18px;
+            padding: 10px 22px;
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            outline: none;
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(14px);
-            padding: 8px 16px;
-            border-radius: 16px;
-            border: 1.5px solid var(--glass-border);
-            cursor: pointer;
-            outline: none;
-            will-change: transform;
-            transition: transform 0.22s cubic-bezier(0.3, 1.4, 0.5, 1), background 0.2s ease, border-color 0.2s ease;
+            transition: transform 0.15s ease-out, border-color 0.15s ease-out;
         }
 
         .header-btn:hover,
         .header-btn:focus,
         .header-btn.focused {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: var(--glass-focus-border);
-            transform: scale(1.06);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-        }
-
-        .weather-widget {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 15px;
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(14px);
-            padding: 7px 16px;
-            border-radius: 16px;
-            border: 1.5px solid var(--glass-border);
-            cursor: pointer;
-            will-change: transform;
-            transition: transform 0.22s cubic-bezier(0.3, 1.4, 0.5, 1), background 0.2s ease, border-color 0.2s ease;
-        }
-
-        .weather-widget:hover,
-        .weather-widget.focused {
-            background: rgba(255, 255, 255, 0.18);
-            border-color: var(--glass-focus-border);
+            border-color: var(--border-focus);
             transform: scale(1.05);
+            background: var(--surface-hover);
         }
 
-        /* Text size setting: scales the weather widget, clock and weather drawer. */
-        :root.ts-large .weather-widget, :root.ts-large .clock-group, :root.ts-large .drawer-panel { zoom: 1.3; }
-        :root.ts-xlarge .weather-widget, :root.ts-xlarge .clock-group, :root.ts-xlarge .drawer-panel { zoom: 1.6; }
-
-        .modal-version {
-            margin-right: auto;
-            align-self: center;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .weather-sub {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .clock-group {
+        /* Showcase Area (Big Clock + Dynamic Selection Info) */
+        .hero-showcase {
             display: flex;
-            align-items: baseline;
-            gap: 14px;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin: 20px 0 10px;
+            padding: 0 8px;
         }
 
-        .clock {
-            font-size: 30px;
-            font-weight: 300;
-            letter-spacing: -0.5px;
-            color: #ffffff;
-        }
-
-        .date {
-            font-size: 15px;
-            font-weight: 400;
-            color: var(--text-secondary);
-        }
-
-        /* Top Shelf Hero Details */
-        .hero-shelf {
-            height: 140px;
+        .clock-display {
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            transition: all 0.3s ease;
+            gap: 4px;
+        }
+
+        .big-clock {
+            font-size: 96px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            color: #ffffff;
+            line-height: 0.95;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .big-date {
+            font-size: 26px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: capitalize;
+            letter-spacing: 0.2px;
+        }
+
+        .hero-shelf {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            text-align: right;
+            max-width: 800px;
         }
 
         .hero-tag {
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 17px;
+            font-weight: 800;
+            color: #0a84ff;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--accent);
-            margin-bottom: 6px;
+            letter-spacing: 1.2px;
+            margin-bottom: 4px;
         }
 
         .hero-title {
             font-size: 40px;
-            font-weight: 700;
-            letter-spacing: -1px;
+            font-weight: 800;
+            color: #ffffff;
             margin-bottom: 6px;
-            line-height: 1.1;
+            letter-spacing: -0.5px;
         }
 
         .hero-desc {
-            font-size: 16px;
-            font-weight: 400;
+            font-size: 22px;
             color: var(--text-secondary);
-            max-width: 820px;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            line-height: 1.35;
+            font-weight: 400;
         }
 
-        /* Glass App Shelf */
+        /* App Shelf */
         .shelf-wrapper {
-            background: var(--glass-shelf);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--glass-border);
-            border-radius: 28px;
-            padding: 20px 26px;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: auto;
+            margin-bottom: 10px;
         }
 
         .shelf-top-bar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
+            justify-content: space-between;
+            padding: 0 8px;
         }
 
         .shelf-header {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.3px;
         }
 
         .shelf-hint {
-            font-size: 13px;
+            font-size: 18px;
             color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .shelf-edit-actions {
+            display: flex;
+            gap: 12px;
         }
 
         .shelf-grid {
-            /* Flexbox fallback for engines without CSS Grid (e.g. webOS 3.x /
-               Chromium 38); the display: grid line below overrides it on any
-               engine that understands grid, since it comes later in the cascade. */
             display: flex;
             flex-wrap: wrap;
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            gap: 18px;
+            justify-content: center;
+            align-items: center;
+            gap: 28px;
+            padding: 12px 0 20px;
         }
 
         .app-tile {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1.5px solid rgba(255, 255, 255, 0.1);
-            border-radius: 22px;
-            aspect-ratio: 1 / 1;
-            flex: 0 0 calc((100% - 18px * 7) / 8);
+            width: 250px;
+            height: 190px;
+            flex: 0 0 250px;
+            background: var(--surface);
+            border: 2.5px solid var(--border);
+            border-radius: 26px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0;
             cursor: pointer;
             outline: none;
             position: relative;
+            overflow: hidden;
             will-change: transform;
-            transition: transform 0.28s cubic-bezier(0.3, 1.4, 0.5, 1), border-color 0.2s ease, background 0.2s ease;
+            transition: transform 0.15s ease-out, border-color 0.15s ease-out, background 0.15s ease-out, box-shadow 0.15s ease-out;
             transform: scale(1) translateZ(0);
-            padding: 0;
         }
 
         .app-tile:hover,
         .app-tile:focus,
         .app-tile.focused {
-            transform: scale(1.04) translateY(-4px) translateZ(0);
-            border-color: var(--glass-focus-border);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(255, 255, 255, 0.25);
+            transform: scale(1.08) translateY(-6px) translateZ(0);
+            border-color: var(--border-focus);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.95), 0 0 28px rgba(255, 255, 255, 0.4);
             z-index: 20;
-            background: rgba(255, 255, 255, 0.17);
+            background: var(--surface-hover);
+        }
+
+        .app-tile.moving {
+            outline: 4px solid #0a84ff;
+            transform: translateY(-10px) scale(1.04);
         }
 
         .app-icon {
             width: 100%;
             flex: 1;
             min-height: 0;
-            border-radius: 20px 20px 0 0;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             position: relative;
+            padding: 12px 12px 4px;
         }
 
-        .app-icon svg { width: 75%; height: 75%; }
-        .app-icon img {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+        .app-icon img.tile-brand-logo {
+            width: 80px;
+            height: 80px;
             object-fit: contain;
         }
-        .app-icon img.tile-brand-logo { width: 76%; height: 76%; }
-        .app-art-fallback {
-            font-size: 25px;
-            font-weight: 800;
-            color: #fff;
-            text-align: center;
-            padding: 12px;
-            overflow-wrap: break-word;
-            max-width: 100%;
+
+        .app-icon svg {
+            width: 80px;
+            height: 80px;
         }
+
+        .app-art-fallback {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+        }
+
         .app-label {
             width: 100%;
-            padding: 12px 8px;
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
+            padding: 10px 12px 14px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #ffffff;
             text-align: center;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            letter-spacing: 0.2px;
+            background: rgba(0, 0, 0, 0.35);
         }
-        .hdmi-options {
-            /* Flexbox fallback for engines without CSS Grid; display: grid
-               below overrides it on any engine that understands grid. */
+
+        /* Footer Hints */
+        .footer-hints {
             display: flex;
-            flex-wrap: wrap;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .hdmi-options .app-toggle-item {
-            flex: 0 0 calc((100% - 12px) / 2);
-        }
-
-        /* Trending Picks Row */
-        .picks-section {
-            margin-top: 6px;
-        }
-
-        .picks-top-bar {
-            display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 12px;
+            gap: 36px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .picks-header {
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-        }
-
-        .picks-source-badge {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .picks-tabs {
+        .hint {
             display: flex;
+            align-items: center;
             gap: 8px;
-        }
-
-        .picks-tab {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1.5px solid var(--glass-border);
+            font-size: 20px;
+            font-weight: 500;
             color: var(--text-secondary);
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 6px 16px;
-            border-radius: 12px;
-            cursor: pointer;
-            outline: none;
-            will-change: transform;
-            transition: transform 0.2s cubic-bezier(0.3, 1.4, 0.5, 1), border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
         }
 
-        .picks-tab.active {
-            color: var(--text-primary);
-            background: rgba(10, 132, 255, 0.22);
+        .hint .kbd {
+            background: #1c202e;
+            color: #ffffff;
+            padding: 3px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .hint.hint-quick .kbd {
+            background: #0a84ff;
+            color: #ffffff;
             border-color: #0a84ff;
         }
 
-        .picks-tab:hover,
-        .picks-tab:focus,
-        .picks-tab.focused {
-            border-color: var(--glass-focus-border);
-            transform: scale(1.06);
-        }
-
-        .picks-grid {
-            /* Flexbox fallback for engines without CSS Grid; display: grid
-               below overrides it on any engine that understands grid. */
-            display: flex;
-            flex-wrap: wrap;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .pick-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1.5px solid var(--glass-border);
-            border-radius: 18px;
-            height: 128px;
-            flex: 0 0 calc((100% - 20px * 3) / 4);
-            display: flex;
-            overflow: hidden;
-            cursor: pointer;
-            outline: none;
-            will-change: transform;
-            transition: transform 0.26s cubic-bezier(0.3, 1.4, 0.5, 1), border-color 0.2s ease, background 0.2s ease;
-            transform: translateZ(0);
-            position: relative;
-        }
-
-        .pick-card:hover,
-        .pick-card:focus,
-        .pick-card.focused {
-            transform: scale(1.04) translateY(-4px) translateZ(0);
-            border-color: var(--glass-focus-border);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(255,255,255,0.2);
-            background: rgba(255, 255, 255, 0.14);
-        }
-
-        .pick-poster {
-            width: 92px;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            flex-shrink: 0;
-            background-color: #1a2030;
-        }
-
-        .pick-meta {
-            padding: 12px 16px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 4px;
-            overflow: hidden;
-        }
-
-        .pick-badge {
-            font-size: 11px;
+        /* Toast */
+        .toast-msg {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e2230;
+            color: #ffffff;
+            padding: 16px 36px;
+            border-radius: 30px;
+            font-size: 24px;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent);
+            z-index: 9999;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.9);
+            border: 2px solid #ffffff;
         }
 
-        .pick-title {
-            font-size: 16px;
-            font-weight: 600;
-            letter-spacing: -0.3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        /* Modals & Drawers: Clean Solid Dark Surfaces (No heavy blur) */
+        .modal-backdrop, .weather-drawer {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
         }
 
-        .pick-service {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        /* Modal Overlay (Settings & Customize Shelf) */
         .modal-backdrop {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(4, 6, 12, 0.82);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            z-index: 500;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
             display: none;
             align-items: center;
             justify-content: center;
-            padding: 40px;
-        }
-
-        .modal-backdrop.active {
-            display: flex;
+            z-index: 1000;
         }
 
         .modal-box {
-            width: 960px;
-            max-height: 86vh;
-            background: rgba(22, 27, 40, 0.92);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: #12151e;
+            border: 2px solid rgba(255, 255, 255, 0.18);
             border-radius: 28px;
-            padding: 32px 38px;
+            width: 880px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 36px;
             display: flex;
             flex-direction: column;
-            gap: 22px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85);
-            overflow-y: auto;
+            gap: 24px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.95);
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: baseline;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 16px;
+            padding-bottom: 14px;
         }
 
         .modal-title {
-            font-size: 26px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 800;
+            color: #ffffff;
         }
 
         .modal-section-title {
-            font-size: 14px;
+            font-size: 22px;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--accent);
-            margin-bottom: 10px;
+            color: #5ac8fa;
+            margin-bottom: 14px;
         }
 
         .app-selector-grid {
-            /* Flexbox fallback for engines without CSS Grid; display: grid
-               below overrides it on any engine that understands grid. */
-            display: flex;
-            flex-wrap: wrap;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 12px;
-            max-height: 240px;
+            max-height: 220px;
             overflow-y: auto;
             padding: 4px;
         }
 
-        .app-selector-grid .app-toggle-item {
-            flex: 0 0 calc((100% - 12px * 3) / 4);
-        }
-
-        .app-toggle-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1.5px solid rgba(255, 255, 255, 0.1);
+        .selector-tile {
+            background: #1a1e2b;
+            border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 14px;
-            padding: 10px 14px;
+            padding: 12px 14px;
+            color: #ffffff;
+            font-size: 19px;
+            font-weight: 600;
             cursor: pointer;
-            color: var(--text-primary);
-            font-size: 14px;
-            font-weight: 500;
-            transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+            outline: none;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .app-toggle-item.selected {
-            background: rgba(10, 132, 255, 0.22);
-            border-color: #0a84ff;
-        }
-
-        .app-toggle-item:hover,
-        .app-toggle-item.focused {
-            transform: scale(1.03);
+        .selector-tile.selected {
+            background: #0a84ff;
             border-color: #ffffff;
-            background: rgba(255, 255, 255, 0.16);
         }
 
-        .shelf-edit-actions { display: flex; align-items: center; gap: 10px; }
-        .shelf-edit-actions[hidden], #reorderShelfBtn[hidden] { display: none; }
-        .shelf-edit-actions button, #reorderShelfBtn { padding: 7px 14px; font-size: 14px; }
-        .app-tile.moving { outline: 3px solid #fff; transform: translateY(-8px); }
-
-        .app-tile[aria-busy="true"] { border-color: var(--accent); }
-
-        .settings-row {
-            /* Flexbox fallback for engines without CSS Grid; display: grid
-               below overrides it on any engine that understands grid. */
-            display: flex;
-            flex-wrap: wrap;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
+        .selector-tile:focus, .selector-tile.focused {
+            border-color: #ffffff;
+            outline: 2px solid #ffffff;
         }
 
         .field-group {
-            flex: 0 0 calc((100% - 16px * 2) / 3);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .field {
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
 
-        .field-group label {
-            font-size: 13px;
+        .field label {
+            font-size: 19px;
+            font-weight: 600;
             color: var(--text-secondary);
         }
 
         .field-input {
-            background: rgba(0, 0, 0, 0.35);
-            border: 1.5px solid rgba(255, 255, 255, 0.16);
+            background: #1a1e2b;
+            border: 2px solid rgba(255, 255, 255, 0.15);
             border-radius: 12px;
-            padding: 10px 14px;
+            padding: 12px 16px;
+            font-size: 20px;
             color: #ffffff;
-            font-size: 14px;
             outline: none;
         }
 
-        .field-input:focus,
-        .field-input.focused {
-            border-color: var(--accent);
-            background: rgba(0, 0, 0, 0.55);
+        .field-input:focus, .field-input.focused {
+            border-color: #ffffff;
         }
 
         .modal-actions {
             display: flex;
             justify-content: flex-end;
-            gap: 14px;
-            padding-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: #ffffff;
-            border: 2px solid transparent;
-            padding: 10px 24px;
-            border-radius: 14px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            border: 2px solid transparent;
-            padding: 10px 20px;
-            border-radius: 14px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover, .btn-primary.focused,
-        .btn-secondary:hover, .btn-secondary.focused {
-            border-color: #ffffff;
-            transform: scale(1.05);
-        }
-
-        /* Toast Popup */
-        .toast-msg {
-            position: fixed;
-            top: 24px;
-            right: 36px;
-            background: rgba(20, 24, 35, 0.92);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.22);
-            padding: 12px 20px;
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 600;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
-            display: none;
-            z-index: 1000;
-        }
-
-        /* Weather & Sun Drawer */
-        .drawer-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(4, 6, 12, 0.55);
-            z-index: 500;
-            display: none;
-            justify-content: flex-end;
-        }
-
-        .drawer-backdrop.active {
-            display: flex;
-        }
-
-        .drawer-panel {
-            width: 460px;
-            max-width: 90vw;
-            height: 100%;
-            background: rgba(18, 22, 34, 0.96);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-left: 1px solid rgba(255, 255, 255, 0.14);
-            padding: 32px 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            box-shadow: -20px 0 60px rgba(0, 0, 0, 0.6);
-            transform: translateX(100%);
-            transition: transform 0.32s cubic-bezier(0.3, 1.1, 0.4, 1);
-            overflow-y: auto;
-        }
-
-        .drawer-backdrop.active .drawer-panel {
-            transform: translateX(0);
-        }
-
-        .drawer-current {
-            display: flex;
-            align-items: center;
             gap: 16px;
+            margin-top: 10px;
         }
 
-        .drawer-current-icon {
-            font-size: 48px;
-        }
-
-        .drawer-current-temp {
-            font-size: 32px;
-            font-weight: 700;
-        }
-
-        .drawer-current-sub {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .drawer-hourly {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            padding: 4px 2px;
-        }
-
-        .drawer-hour-chip {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1.5px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 10px 8px;
-            text-align: center;
-            min-width: 58px;
-            flex-shrink: 0;
-        }
-
-        .drawer-hour-time {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .drawer-hour-icon {
-            font-size: 20px;
-            margin: 4px 0;
-        }
-
-        .drawer-hour-temp {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .drawer-sun-row {
-            display: flex;
-            gap: 24px;
-        }
-
-        .drawer-sun-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 24px;
-        }
-
-        .drawer-sun-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .drawer-sun-value {
-            font-size: 17px;
-            font-weight: 600;
-        }
-
-        /* OLED-Safe Idle Screensaver */
+        /* Screensaver */
         .screensaver {
             position: fixed;
             inset: 0;
             background: #000000;
-            z-index: 3000;
+            z-index: 99999;
             display: none;
-            align-items: center;
-            justify-content: center;
-            cursor: none;
         }
 
-        .screensaver.active {
-            display: flex;
-        }
-
-        .screensaver-clock-wrap {
-            text-align: center;
-            transition: transform 1.4s ease-in-out;
-        }
+        .screensaver.active { display: block; }
 
         .screensaver-clock {
-            font-size: 132px;
-            font-weight: 200;
-            letter-spacing: -2px;
-            color: rgba(255, 255, 255, 0.82);
+            font-size: 140px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -3px;
+            line-height: 1;
         }
 
         .screensaver-date {
-            font-size: 22px;
-            font-weight: 400;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.4);
-            margin-top: 6px;
+            font-size: 32px;
+            color: #888888;
+            margin-top: 12px;
         }
-    </style>
+</style>
     <script>
         (function() {
             try {
@@ -942,71 +572,72 @@
     </script>
 </head>
 <body>
-    <div class="ambient-glow" id="ambientGlow"></div>
-    <div class="toast-msg" id="toastMsg" role="status" aria-live="polite">Launching...</div>
+        <div class="toast-msg" id="toastMsg" role="status" aria-live="polite">A carregar...</div>
 
     <div class="container">
-        <!-- Header -->
-        <header>
+        <!-- Top Navigation Bar -->
+        <header class="top-header">
             <div class="brand-group">
                 <div class="brand-logo">
                     <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg>
                 </div>
-                <div class="brand-title">Free My TV</div>
-                <div class="tag-pill" id="themeBadge">60 FPS • Onboard</div>
+                <div class="brand-title">QuaresmaTV</div>
+                <div class="tag-pill" id="themeBadge">OLED 60 FPS</div>
             </div>
-            <div class="header-info">
-                <button class="header-btn nav-item" id="customizeBtn" data-tag="Personalize" data-title="Customize Shelf & Settings" data-desc="Choose which installed TV apps appear on your shelf, configure weather city, and TMDB key.">
-                    <span>⚙️ Customize</span>
-                </button>
+
+            <div class="header-right">
                 <div class="weather-widget nav-item" id="weatherWidget" data-tag="Live Forecast" data-title="Local Weather & Sunset" data-desc="Live temperature and sky conditions powered by Open-Meteo.">
                     <span id="weatherIcon">☀️</span>
-                    <div>
-                        <div id="weatherText">Loading...</div>
-                        <div class="weather-sub" id="weatherSub">Auto-detecting</div>
+                    <div class="weather-meta">
+                        <div id="weatherText">--°C</div>
+                        <div class="weather-sub" id="weatherSub">Vila Nova de Famalicão</div>
                     </div>
                 </div>
-                <div class="clock-group">
-                    <div class="date" id="dateText">Mon, Oct 19</div>
-                    <div class="clock" id="clockText">20:30</div>
-                </div>
+                <button class="header-btn nav-item" id="customizeBtn" data-tag="Personalize" data-title="Customize Shelf & Settings" data-desc="Choose which installed TV apps appear on your shelf, configure weather city, and TMDB key.">
+                    <span>⚙️ Personalizar</span>
+                </button>
             </div>
         </header>
 
-        <!-- Top Shelf (Hero Preview) -->
-        <div class="hero-shelf">
-            <div class="hero-tag" id="heroTag">App Launcher</div>
-            <div class="hero-title" id="heroTitle">Clean & Ad-Free Home</div>
-            <div class="hero-desc" id="heroDesc">Navigate smoothly with Magic Remote D-Pad or pointer. Launch apps in 100ms with zero ads.</div>
-        </div>
+        <!-- Showcase: Big Digital Clock, Date & Current Selected App Info -->
+        <section class="hero-showcase">
+            <div class="clock-display">
+                <div class="big-clock" id="clockText">21:30</div>
+                <div class="big-date" id="dateText">Sexta-feira, 6 de Novembro</div>
+            </div>
+            <div class="hero-shelf">
+                <div class="hero-tag" id="heroTag">App Launcher</div>
+                <div class="hero-title" id="heroTitle">QuaresmaTV</div>
+                <div class="hero-desc" id="heroDesc">Selecione uma aplicação para abrir instantaneamente.</div>
+            </div>
+        </section>
 
-        <!-- Glass Shelf: Apps -->
-        <div class="shelf-wrapper">
+        <!-- Large Premium App Shelf -->
+        <main class="shelf-wrapper">
             <div class="shelf-top-bar">
-                <div class="shelf-header">Favorite Apps</div>
-                <div class="shelf-hint" id="shelfCountHint" aria-live="polite">Instant Native Launch</div>
-                <button class="header-btn nav-item" id="reorderShelfBtn" data-title="Reorder tiles" data-desc="Rearrange your apps right here on the shelf.">Reorder</button>
+                <div class="shelf-header">As Minhas Aplicações</div>
+                <div class="shelf-hint" id="shelfCountHint" aria-live="polite">Abertura Nativa Instantânea</div>
+                <button class="header-btn nav-item" id="reorderShelfBtn" data-title="Reorder tiles" data-desc="Rearrange your apps right here on the shelf.">Reordenar</button>
                 <div class="shelf-edit-actions" id="shelfEditActions" hidden>
-                    <button class="header-btn nav-item" id="saveShelfOrder" data-title="Save tile order">Done</button>
-                    <button class="header-btn nav-item" id="cancelShelfOrder" data-title="Cancel reordering">Cancel</button>
+                    <button class="header-btn nav-item" id="saveShelfOrder" data-title="Save tile order">Concluir</button>
+                    <button class="header-btn nav-item" id="cancelShelfOrder" data-title="Cancel reordering">Cancelar</button>
                 </div>
             </div>
             <div class="shelf-grid" id="appsGrid"></div>
-        </div>
+        </main>
 
-        <!-- Trending Picks Row -->
-        <div class="picks-section">
-            <div class="picks-top-bar">
-                <div class="picks-header">Trending This Week</div>
-                <div class="picks-tabs">
-                    <button class="picks-tab nav-item active" id="tabMovies" data-tag="Trending" data-title="Movies" data-desc="Switch the row below to this week's trending movies.">Movies</button>
-                    <button class="picks-tab nav-item" id="tabShows" data-tag="Trending" data-title="Shows" data-desc="Switch the row below to this week's trending TV shows.">Shows</button>
-                </div>
-                <div class="picks-source-badge" id="picksSourceBadge">Live Feed</div>
-            </div>
-            <div class="picks-grid" id="picksGrid"></div>
-        </div>
+        <!-- Clean Remote Quick Hints Bar -->
+        <footer class="footer-hints">
+            <div class="hint"><span class="kbd">◄ ► ▲ ▼</span> Navegar</div>
+            <div class="hint"><span class="kbd">OK</span> Abrir</div>
+            <div class="hint"><span class="kbd">⚙️</span> Personalizar</div>
+            <div class="hint hint-quick"><span class="kbd">Segurar 1</span> Configurar Atalho Rápido</div>
+        </footer>
     </div>
+
+    <!-- Hidden compatibility elements for spatial nav / legacy references -->
+    <div style="display:none;" id="picksGrid"><div id="tabMovies"></div><div id="tabShows"></div><div id="picksSourceBadge"></div></div>
+    <div style="display:none;" id="ambientGlow"></div>
 
     <!-- Customize Shelf & Settings Modal -->
     <div class="modal-backdrop" id="settingsModal">
@@ -1235,14 +866,11 @@
         // (YouTube/Netflix/Prime/Disney+) over niche regional or personal-media apps
         // like Plex or Globoplay, which stay one tap away in Customize for anyone who uses them.
         var DEFAULT_FAVORITES = [
-            'youtube.leanback.v4',
             'netflix',
-            'amazon',
-            'com.disney.disneyplus-prod',
-            'com.crunchyroll.webapp',
-            'com.webos.app.hdmi1',
+            'youtube.leanback.v4',
+            'spotify-beehive',
             'com.webos.app.browser',
-            'org.webosbrew.hbchannel'
+            'com.webos.app.mediadiscovery'
         ];
 
         var FALLBACK_MOVIES = [
@@ -1263,15 +891,15 @@
         var state = {
             favorites: JSON.parse(localStorage.getItem('fmtv_favorites') || 'null') || DEFAULT_FAVORITES.slice(),
             hdmiDevices: readDeviceChoices(),
-            city: localStorage.getItem('fmtv_city') || '',
-            lat: parseFloat(localStorage.getItem('fmtv_lat') || '0'),
-            lon: parseFloat(localStorage.getItem('fmtv_lon') || '0'),
-            theme: localStorage.getItem('fmtv_theme') || 'auto',
+            city: localStorage.getItem('fmtv_city') || 'Vila Nova de Famalicão',
+            lat: parseFloat(localStorage.getItem('fmtv_lat') || '41.40797'),
+            lon: parseFloat(localStorage.getItem('fmtv_lon') || '-8.51978'),
+            theme: localStorage.getItem('fmtv_theme') || 'oled',
             clockFormat: localStorage.getItem('fmtv_clock_format') || '24h',
             perfMode: localStorage.getItem('fmtv_perf_mode') || 'standard',
             tmdbKey: localStorage.getItem('fmtv_tmdb_key') || '',
             ipLocate: localStorage.getItem('fmtv_ip_locate') || 'off',
-            lang: localStorage.getItem('fmtv_lang') || 'auto',
+            lang: localStorage.getItem('fmtv_lang') || 'pt',
             textSize: localStorage.getItem('fmtv_text_size') || 'normal',
             catalog: DEFAULT_CATALOG.slice(),
             picksTab: 'movies',
@@ -1286,13 +914,13 @@
         // English is the source language: every UI string below is looked up by its
         // English text, and anything without a translation simply stays English.
         // Written in plain ES5 for the Chromium 38 engine on webOS 3.x.
-        var APP_VERSION = '1.4.0'; // keep equal to app/appinfo.json (scripts/check.py enforces it)
+        var APP_VERSION = '1.0.0'; // keep equal to app/appinfo.json (scripts/check.py enforces it)
 
         var I18N = {
             pt: {
                 '⚙️ Customize': '⚙️ Personalizar', 'Favorite Apps': 'Apps Favoritos', 'Reorder': 'Reordenar', 'Done': 'Concluir', 'Cancel': 'Cancelar',
                 'Trending This Week': 'Em Alta na Semana', 'Movies': 'Filmes', 'Shows': 'Séries',
-                'Customize Free My TV': 'Personalizar o Free My TV', 'Press BACK or ESC to close': 'Pressione VOLTAR ou ESC para fechar',
+                'Customize Free My TV': 'Personalizar QuaresmaTV', 'Press BACK or ESC to close': 'Pressione VOLTAR ou ESC para fechar',
                 '1. Select Apps for Glass Shelf (Click to Toggle)': '1. Escolha os Apps da Prateleira (Clique para Alternar)',
                 '2. HDMI Devices': '2. Dispositivos HDMI',
                 'Press a port to cycle its device. Save & Apply to keep your choices.': 'Pressione uma porta para trocar o dispositivo. Use Salvar e Aplicar para manter.',
@@ -1619,7 +1247,7 @@
             }
             document.getElementById('clockText').textContent = timeStr;
 
-            var opts = { weekday: 'short', month: 'short', day: 'numeric' };
+            var opts = { weekday: 'long', month: 'long', day: 'numeric' };
             var dateStr = now.toLocaleDateString(LANG_LOCALES[currentLang()], opts);
             document.getElementById('dateText').textContent = dateStr;
 
@@ -1738,11 +1366,11 @@
                     }
                 })
                 .then(function() {
-                    // Default to Sao Paulo coordinates if offline/blocked
+                    // Default to Vila Nova de Famalicao coordinates if offline/blocked
                     if (!lat && !lon) {
-                        lat = -23.55;
-                        lon = -46.63;
-                        cityLabel = cityLabel || 'São Paulo';
+                        lat = 41.40797;
+                        lon = -8.51978;
+                        cityLabel = cityLabel || 'Vila Nova de Famalicão';
                     }
 
                     var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
@@ -1811,6 +1439,12 @@
 
         // --- Live Trending Picks (TMDB + Live TVMaze Zero-Key Feed), split by Movies/Shows tab ---
         function fetchTrendingPicks() {
+            // Movies and TV series section removed by user request
+        }
+        function renderPicks() {
+            // Movies and TV series section removed by user request
+        }
+        function _disabled_fetchTrendingPicks() {
             var badge = document.getElementById('picksSourceBadge');
             var tab = state.picksTab;
             var tmdbMediaPath = tab === 'shows' ? 'tv' : 'movie';
@@ -2712,7 +2346,7 @@
         });
 
         // --- Boot Sequence ---
-        document.getElementById('appVersion').textContent = 'Free My TV v' + APP_VERSION;
+        document.getElementById('appVersion').textContent = 'QuaresmaTV v' + APP_VERSION;
         applyStaticTranslations();
         applyPerfMode();
         applyTextSize();

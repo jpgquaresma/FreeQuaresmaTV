@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="docs/assets/icon-512.png" width="108" alt="Free My TV Logo">
+<img src="docs/assets/icon-512.png" width="108" alt="QuaresmaTV Logo">
 
-# Free My TV (for LG webOS)
+# QuaresmaTV (for LG webOS)
 
 **A fast, ad-free 60fps home screen for LG Smart TVs.**
 
@@ -20,7 +20,7 @@ Open source. Zero ads. 100% Onboard. No root required.
 
 <br>
 
-<img src="docs/assets/preview.png" width="900" alt="Free My TV on LG webOS: Frosted glass app shelf, dynamic hero preview, live weather, and trending movies">
+<img src="docs/assets/preview.png" width="900" alt="QuaresmaTV on LG webOS: Frosted glass app shelf, dynamic hero preview, live weather, and trending movies">
 
 </div>
 
@@ -30,7 +30,7 @@ Open source. Zero ads. 100% Onboard. No root required.
 <br>
 <img src="docs/assets/screenshot-customize.png" width="440" alt="Customize modal: shelf apps, HDMI devices, theme, clock, language and TMDB key">
 <img src="docs/assets/screenshot-weather.png" width="440" alt="Weather and sun drawer with hourly forecast, sunrise and sunset">
-<img src="docs/assets/screenshot-pt-br.png" width="440" alt="Free My TV in Brazilian Portuguese">
+<img src="docs/assets/screenshot-pt-br.png" width="440" alt="QuaresmaTV in Brazilian Portuguese">
 </details>
 
 ---
@@ -42,7 +42,7 @@ Modern LG webOS (especially webOS 6, 22, 23, and 24) replaced the classic, snapp
 - 3 to 5 second lag spikes every time you press the Home button.
 - Background telemetry and Automatic Content Recognition (ACR).
 
-**Free My TV for webOS** brings the philosophy of [simbasjungles/free-my-tv](https://github.com/simbasjungles/free-my-tv) and Apple tvOS natively to LG televisions—giving you an instantaneous, clean glass dashboard that lives right on your TV's internal flash memory.
+**QuaresmaTV for webOS** brings the philosophy of [simbasjungles/free-my-tv](https://github.com/simbasjungles/free-my-tv) and Apple tvOS natively to LG televisions—giving you an instantaneous, clean glass dashboard that lives right on your TV's internal flash memory.
 
 ---
 
@@ -62,9 +62,9 @@ Modern LG webOS (especially webOS 6, 22, 23, and 24) replaced the classic, snapp
 
 ---
 
-## 📊 Stock LG webOS Home vs. Free My TV
+## 📊 Stock LG webOS Home vs. QuaresmaTV
 
-| Metric / Feature | Stock LG webOS 24 Home | Free My TV (webOS) |
+| Metric / Feature | Stock LG webOS 24 Home | QuaresmaTV (webOS) |
 |---|---|---|
 | **Sponsored Ads & Banners** | ❌ 70%+ of screen real estate | ✅ **0% (Completely Ad-Free)** |
 | **Cold Load Time** | ❌ 3.5 – 5.0 seconds | ✅ **< 0.2 seconds** |
@@ -91,7 +91,7 @@ All you need is an LG Smart TV (webOS 3.0+) and a computer or Android phone on t
 Run our automated Python installer—it discovers your TV on the network, pairs the SSH key, packages the app, and installs it:
 
 ```bash
-git clone https://github.com/danielthejoker18/FreeMyTvWebOS.git
+git clone https://github.com/jpgquaresma/QuaresmaTV.git
 cd FreeMyTvWebOS
 python scripts/install.py
 ```
@@ -99,10 +99,10 @@ python scripts/install.py
 ### Step 2B: GUI Install via webOS Dev Manager
 1. Install [webOS Dev Manager](https://github.com/webosbrew/dev-manager-desktop/releases) (`winget install webosbrew.webOSDevManager` on Windows).
 2. Connect your TV using the IP and Passphrase.
-3. Download [`dist/org.webos.freemytv_1.2.5_all.ipk`](dist/org.webos.freemytv_1.2.5_all.ipk) and click **Install .ipk**.
+3. Download [`dist/org.webos.quaresmatv_1.2.5_all.ipk`](dist/org.webos.quaresmatv_1.2.5_all.ipk) and click **Install .ipk**.
 
 ### Step 2C: Install from Android Phone via Termux (No PC Needed)
-Don't have a computer? You can install Free My TV directly from an Android phone on the same Wi-Fi:
+Don't have a computer? You can install QuaresmaTV directly from an Android phone on the same Wi-Fi:
 
 1. Install **Termux from [F-Droid](https://f-droid.org/packages/com.termux/)** *(do not use the Google Play Store version as it is outdated and unsupported)*.
 2. Ensure your phone and LG TV are connected to the **same Wi-Fi network** (not a guest Wi-Fi).
@@ -111,7 +111,7 @@ Don't have a computer? You can install Free My TV directly from an Android phone
 ```bash
 pkg update -y
 pkg install -y git python openssh python-cryptography
-git clone https://github.com/danielthejoker18/FreeMyTvWebOS.git
+git clone https://github.com/jpgquaresma/QuaresmaTV.git
 cd FreeMyTvWebOS
 python scripts/install.py
 ```
@@ -123,7 +123,7 @@ python scripts/install.py
 
 > [!TIP]
 > **Make It Your 1-Second Home Key (Quick Access):**
-> While inside **Free My TV** on your TV, **press and hold number `1`** (or hold `0` to open Quick Access) on your Magic Remote and assign **Free My TV** to key **`1`**. Now, holding **`1`** from anywhere on your TV jumps straight into your clean glass hub in half a second!
+> While inside **QuaresmaTV** on your TV, **press and hold number `1`** (or hold `0` to open Quick Access) on your Magic Remote and assign **QuaresmaTV** to key **`1`**. Now, holding **`1`** from anywhere on your TV jumps straight into your clean glass hub in half a second!
 
 ---
 
@@ -139,7 +139,7 @@ Under **HDMI Devices**, press a port to cycle through HDMI, PS5, PS4, Xbox, Nint
 
 The shelf displays larger artwork with bundled brand logos for PS5, PS4, Xbox, Nintendo Switch, and the streaming apps in the default catalog (including Netflix). These logos work offline. Other installed apps use icons supplied by webOS when accessible; missing or unreadable icons fall back to a readable app name.
 
-Some newer webOS releases block Developer Mode apps from listing installed apps. On those TVs, a one-time on-screen prompt asks to allow Free My TV; accept it so your installed apps appear in Customize.
+Some newer webOS releases block Developer Mode apps from listing installed apps. On those TVs, a one-time on-screen prompt asks to allow QuaresmaTV; accept it so your installed apps appear in Customize.
 
 | Setting | What It Does |
 |---|---|
@@ -188,7 +188,7 @@ free-my-webos/
 │   ├── webOSTV.js         # Official LG webOS JavaScript service library
 │   └── assets/            # App icons & splash screens
 ├── dist/
-│   └── org.webos.freemytv_1.2.5_all.ipk
+│   └── org.webos.quaresmatv_1.2.5_all.ipk
 ├── docs/                  # Live preview & visual assets
 └── scripts/
     ├── build.py           # Cross-platform .ipk compiler (ares-package + pure Python fallback)
@@ -213,9 +213,9 @@ Released under the [MIT License](LICENSE). Fork it, vibe code it, make your TV y
 
 <div align="center">
 
-<img src="docs/assets/icon-512.png" width="108" alt="Logo do Free My TV">
+<img src="docs/assets/icon-512.png" width="108" alt="Logo do QuaresmaTV">
 
-# Free My TV (para LG webOS)
+# QuaresmaTV (para LG webOS)
 
 **Uma home screen rápida, sem anúncios e a 60fps para Smart TVs LG.**
 
@@ -233,7 +233,7 @@ Código aberto. Zero anúncios. 100% independente na TV. Sem necessidade de root
 
 <br>
 
-<img src="docs/assets/preview.png" width="900" alt="Free My TV no LG webOS: prateleira de apps em vidro fosco, preview dinâmico, clima ao vivo e filmes em alta">
+<img src="docs/assets/preview.png" width="900" alt="QuaresmaTV no LG webOS: prateleira de apps em vidro fosco, preview dinâmico, clima ao vivo e filmes em alta">
 
 </div>
 
@@ -246,7 +246,7 @@ O webOS moderno da LG (especialmente webOS 6, 22, 23 e 24) substituiu a clássic
 - Travamentos de 3 a 5 segundos toda vez que você aperta o botão Home.
 - Telemetria em segundo plano e Reconhecimento Automático de Conteúdo (ACR).
 
-**Free My TV para webOS** traz a filosofia do [simbasjungles/free-my-tv](https://github.com/simbasjungles/free-my-tv) e da Apple tvOS nativamente para as TVs LG — te dando um painel de vidro instantâneo e limpo que roda direto na memória flash interna da sua TV.
+**QuaresmaTV para webOS** traz a filosofia do [simbasjungles/free-my-tv](https://github.com/simbasjungles/free-my-tv) e da Apple tvOS nativamente para as TVs LG — te dando um painel de vidro instantâneo e limpo que roda direto na memória flash interna da sua TV.
 
 ---
 
@@ -266,9 +266,9 @@ O webOS moderno da LG (especialmente webOS 6, 22, 23 e 24) substituiu a clássic
 
 ---
 
-## 📊 LG webOS de Fábrica vs. Free My TV
+## 📊 LG webOS de Fábrica vs. QuaresmaTV
 
-| Métrica / Recurso | LG webOS 24 de Fábrica | Free My TV (webOS) |
+| Métrica / Recurso | LG webOS 24 de Fábrica | QuaresmaTV (webOS) |
 |---|---|---|
 | **Anúncios e Banners Patrocinados** | ❌ Mais de 70% da tela | ✅ **0% (Totalmente Sem Anúncios)** |
 | **Tempo de Carregamento Frio** | ❌ 3,5 a 5,0 segundos | ✅ **< 0,2 segundos** |
@@ -295,7 +295,7 @@ Tudo que você precisa é de uma Smart TV LG (webOS 3.0+) e um computador ou cel
 Rode nosso instalador Python automatizado — ele descobre sua TV na rede, pareia a chave SSH, empacota o app e instala:
 
 ```bash
-git clone https://github.com/danielthejoker18/FreeMyTvWebOS.git
+git clone https://github.com/jpgquaresma/QuaresmaTV.git
 cd FreeMyTvWebOS
 python scripts/install.py
 ```
@@ -303,10 +303,10 @@ python scripts/install.py
 ### Passo 2B: Instalação via Interface Gráfica (webOS Dev Manager)
 1. Instale o [webOS Dev Manager](https://github.com/webosbrew/dev-manager-desktop/releases) (`winget install webosbrew.webOSDevManager` no Windows).
 2. Conecte sua TV usando o IP e a Senha.
-3. Baixe o [`dist/org.webos.freemytv_1.2.5_all.ipk`](dist/org.webos.freemytv_1.2.5_all.ipk) e clique em **Install .ipk**.
+3. Baixe o [`dist/org.webos.quaresmatv_1.2.5_all.ipk`](dist/org.webos.quaresmatv_1.2.5_all.ipk) e clique em **Install .ipk**.
 
 ### Passo 2C: Instalação pelo Celular Android via Termux (Sem PC)
-Não tem um computador por perto? Você pode instalar o Free My TV direto pelo seu celular Android na mesma rede Wi-Fi:
+Não tem um computador por perto? Você pode instalar o QuaresmaTV direto pelo seu celular Android na mesma rede Wi-Fi:
 
 1. Instale o **Termux pelo [F-Droid](https://f-droid.org/packages/com.termux/)** *(não use a versão da Google Play Store, pois está descontinuada e sem suporte)*.
 2. Garanta que o celular e a TV LG estejam na **mesma rede Wi-Fi** (não use rede de convidados).
@@ -315,7 +315,7 @@ Não tem um computador por perto? Você pode instalar o Free My TV direto pelo s
 ```bash
 pkg update -y
 pkg install -y git python openssh python-cryptography
-git clone https://github.com/danielthejoker18/FreeMyTvWebOS.git
+git clone https://github.com/jpgquaresma/QuaresmaTV.git
 cd FreeMyTvWebOS
 python scripts/install.py
 ```
@@ -327,7 +327,7 @@ python scripts/install.py
 
 > [!TIP]
 > **Transforme em Sua Tecla de Acesso Rápido (1 Segundo):**
-> Dentro do **Free My TV** na sua TV, **segure o número `1`** (ou segure `0` para abrir o Acesso Rápido) no Magic Remote e atribua o **Free My TV** à tecla **`1`**. Agora, segurar **`1`** de qualquer lugar da TV te leva direto para o seu painel de vidro limpo em meio segundo!
+> Dentro do **QuaresmaTV** na sua TV, **segure o número `1`** (ou segure `0` para abrir o Acesso Rápido) no Magic Remote e atribua o **QuaresmaTV** à tecla **`1`**. Agora, segurar **`1`** de qualquer lugar da TV te leva direto para o seu painel de vidro limpo em meio segundo!
 
 ---
 
@@ -382,7 +382,7 @@ free-my-webos/
 │   ├── webOSTV.js         # Biblioteca oficial de serviços JavaScript do LG webOS
 │   └── assets/            # Ícones e telas de splash do app
 ├── dist/
-│   └── org.webos.freemytv_1.2.5_all.ipk
+│   └── org.webos.quaresmatv_1.2.5_all.ipk
 ├── docs/                  # Preview ao vivo e recursos visuais
 └── scripts/
     ├── build.py           # Compilador .ipk multiplataforma (ares-package + fallback em Python puro)
