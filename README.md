@@ -91,7 +91,7 @@ All you need is an LG Smart TV (webOS 3.0+) and a computer or Android phone on t
 Run our automated Python installer—it discovers your TV on the network, pairs the SSH key, packages the app, and installs it:
 
 ```bash
-git clone https://github.com/jpgquaresma/QuaresmaTV.git
+git clone https://github.com/jpgquaresma/FreeQuaresmaTV.git
 cd FreeMyTvWebOS
 python scripts/install.py
 ```
@@ -111,7 +111,7 @@ Don't have a computer? You can install QuaresmaTV directly from an Android phone
 ```bash
 pkg update -y
 pkg install -y git python openssh python-cryptography
-git clone https://github.com/jpgquaresma/QuaresmaTV.git
+git clone https://github.com/jpgquaresma/FreeQuaresmaTV.git
 cd FreeMyTvWebOS
 python scripts/install.py
 ```
@@ -295,7 +295,7 @@ Tudo que você precisa é de uma Smart TV LG (webOS 3.0+) e um computador ou cel
 Rode nosso instalador Python automatizado — ele descobre sua TV na rede, pareia a chave SSH, empacota o app e instala:
 
 ```bash
-git clone https://github.com/jpgquaresma/QuaresmaTV.git
+git clone https://github.com/jpgquaresma/FreeQuaresmaTV.git
 cd FreeMyTvWebOS
 python scripts/install.py
 ```
@@ -315,7 +315,7 @@ Não tem um computador por perto? Você pode instalar o QuaresmaTV direto pelo s
 ```bash
 pkg update -y
 pkg install -y git python openssh python-cryptography
-git clone https://github.com/jpgquaresma/QuaresmaTV.git
+git clone https://github.com/jpgquaresma/FreeQuaresmaTV.git
 cd FreeMyTvWebOS
 python scripts/install.py
 ```
